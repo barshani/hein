@@ -70,7 +70,7 @@ function CartPage({background,color}:Props){
                         value={search}
                         onChange={handleSearch}
                     />
-                           <div className="d-flex flex-wrap justify-content-start ms-3 pb-5 gap-3">
+                           <div className="d-flex flex-wrap justify-content-between ms-3 pb-5 gap-3">
                     {
                         products.map(product =>
                            <div className="card" key={product._id}style={{width:"22rem",height:"35rem",background:background,color:color}}>

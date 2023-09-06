@@ -46,6 +46,7 @@ function CollectionPage({background,color}:Props){
         const userID=getUserID();
          getCartProducts(userID)
             .then(json => {
+                console.log("hii")
                 setCartProducts(json);
                 var sum=0;
                 json.map(product=>{
@@ -133,7 +134,7 @@ function CollectionPage({background,color}:Props){
         <>
           <ToastContainer />
         <div className="w-75 mx-auto col-12 gap-5">
-            <div className="list" style={{
+            {cartProducts.length&&<div className="list" style={{
                 position: 'fixed',
                 right: 0,
                 zIndex:100,
@@ -143,14 +144,14 @@ function CollectionPage({background,color}:Props){
                 }}>
             <h3 className="ms-2"><i className="bi bi-cart"></i> shopping cart</h3>
              <ul>
-                    <li className="list-group-item">items:{products.length}</li>
+                    <li className="list-group-item">items:{cartProducts.length}</li>
                     <li className="list-group-item">total:{total}</li>
             </ul>
             <button className="btn btn-success w-100" onClick={
                 ()=>{
                     navigate('../cart')
                 }}>buy</button>
-        </div>
+        </div>}
         <div className="mx-auto" style={{paddingTop:'15vh'}}>
         <Title mainText="Cards" subText="Here you can find business cards from all categories"></Title>
         <div className="d-flex pb-3 me-5 gap-5 justify-content-center">
@@ -173,7 +174,7 @@ function CollectionPage({background,color}:Props){
                 </Link>
             </button>}
             </div>
-                           <div className="d-flex flex-wrap justify-content-start ms-3 gap-3">
+                           <div className="d-flex flex-wrap justify-content-between ms-3 gap-3">
                     {
                         products.map(product =>
                            <div className="card" key={product._id}style={{width:"22rem",height:"40rem",backgroundColor:background==='grey'?'black':'white',color:color}}>

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Title from "../components/Title";
 import { deleteAllCartProduct } from "../services/apiService";
 
@@ -41,8 +41,8 @@ function PurchasePage(){
                 </div>
                 <button 
                 onClick={()=>{
-                deleteAllCartProduct();
-                navigate('/collection')
+                deleteAllCartProduct().then(()=>
+                navigate('/collection'))
                 }}>purchase</button>
             </div>
             </div>
