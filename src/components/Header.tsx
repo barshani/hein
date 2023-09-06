@@ -14,7 +14,7 @@ function Header({background,color}:Props) {
         <>
          <Navbar  style={{backgroundColor:background}} collapseOnSelect expand="lg" fixed="top">
       <Container>
-        <Navbar.Brand style={{color:color}} href="#home">HeIn</Navbar.Brand>
+        <Navbar.Brand style={{color:color}} href="#home">HeIn</Navbar.Brand> 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
