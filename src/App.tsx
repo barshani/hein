@@ -15,112 +15,120 @@ import AddPage from './pages/addPage';
 import EditPage from './pages/EditPage';
 import FavProductsPage from './pages/favoritePage';
 import PurchasePage from './pages/purchasePage';
+import { getAdmin, getMode, verifyToken } from './auth/TokenManager';
+import { verify } from 'crypto';
+import context from 'react-bootstrap/esm/AccordionContext';
+interface Context {
+    admin: boolean
+    setAdmin: Function
+    loggedIn: boolean
+    setLoggedIn: Function
+    mode: string
+    setMode: Function
+}
+const initalState={
+     admin:(getAdmin()==="yes"?true:false),
+     setAdmin:()=>{},
+     loggedIn:(verifyToken()),
+     setLoggedIn:()=>{},
+     mode:(getMode()),
+     setMode:()=>{}
+}
+export const AppContext = createContext<Context | null>(initalState);
 function App() {
-   const [mainColor, setMainColor] = useState('#33FF3C');
-   const [secondaryColor, setSecondaryColor] = useState('white');
-   const [cardColor, setCardColor] = useState('white');
-   const [textColor, setTextColor] = useState('black');
+   const [admin, setAdmin] = useState(initalState.admin);
+   const [loggedIn, setLoggedIn] = useState(initalState.loggedIn);
+   const [mode, setMode] = useState(initalState.mode);
   return (
     <>
+     <AppContext.Provider value={{
+                admin,
+                setAdmin,
+                loggedIn,
+                setLoggedIn,
+                mode,
+                setMode
+            }}>
        <Header
-       background={mainColor}
-       color={textColor}
+       background={mode==="dark"?"black":"white"}
+       textColor={mode==="dark"?"white":"black"}
        />
-      <div className='main-div' style={{backgroundColor:secondaryColor,color:textColor,paddingTop:'10vh'}}>
-       {mainColor=='#33FF3C' && <li className="nav-link">
-                        <button
-                        className="btn"
-                        style={{backgroundColor:"blue",position:'fixed'}}
-                        onClick={()=>{
-                          setMainColor("black")
-                          setSecondaryColor("grey")
-                          setTextColor("white")
-                          setCardColor("black")
-                        }
-                        }
-                        >
-                         <i className="bi bi-moon-fill nav-link text-light"></i>
-                         </button>
-                    </li>
-}
-                    {mainColor=='black'&&<li className="nav-link">
-                        <button
-                        className="btn"
-                        style={{backgroundColor:"black",position:'fixed'}}
-                        onClick={()=>{
-                          setMainColor('#33FF3C')
-                          setSecondaryColor("white")
-                          setTextColor('black')
-                          setCardColor("white")
-                      }}
-                        >
-                         <i className="bi bi-sun-fill nav-link text-danger"></i>
-                         </button>
-                    </li> 
-    }
+      <div className='main-div' style={{backgroundColor:mode==='dark'?'grey':'white',color:mode==='dark'?'white':'black',paddingTop:'10vh'}}>
     <Routes>
       <Route path="/" element={
            <Home 
-           background={cardColor}
-           color={textColor}
+           background={mode==="dark"?"black":"white"}
+           textColor={mode==="dark"?"white":"black"}
            />
       } />
       <Route path="/favorites" element={
       <RouteGuard>
-           <FavProductsPage background={cardColor} color={textColor}/>
+           <FavProductsPage 
+            background={mode==="dark"?"black":"white"}
+           textColor={mode==="dark"?"white":"black"}
+           />
       </RouteGuard>
       } />
       <Route path="/cart" element={
       <RouteGuard>
-           <CartPage background={cardColor} color={textColor}/>
+           <CartPage 
+           background={mode==="dark"?"black":"white"}
+           textColor={mode==="dark"?"white":"black"}
+           />
       </RouteGuard>
       } />
       <Route path="/purchase" element={
       <RouteGuard>
-           <PurchasePage />
+           <PurchasePage 
+            background={mode==="dark"?"grey":"white"}
+           textColor={mode==="dark"?"white":"black"}
+           />
       </RouteGuard>
       } />
       <Route path="/addPage" element={
       <RouteGuard>
            <AddPage 
-           background={secondaryColor} 
-           color={textColor}           
+            background={mode==="dark"?"grey":"white"}
+           textColor={mode==="dark"?"white":"black"}           
            />
       </RouteGuard>
       } />
       <Route path="/editPage/:_id" element={
       <RouteGuard>
            <EditPage 
-           background={secondaryColor} 
-           color={textColor}           
+            background={mode==="dark"?"grey":"white"}
+           textColor={mode==="dark"?"white":"black"}          
            />
       </RouteGuard>
       } />
       <Route path="/collection" element={
       <RouteGuard>
-           <CollectionPage background={secondaryColor} color={textColor}/>
+           <CollectionPage 
+            background={mode==="dark"?"black":"white"}
+           textColor={mode==="dark"?"white":"black"}
+           />
       </RouteGuard>
       } />
       <Route path="/signup" element={
            <SignUp
-            background={secondaryColor}
-           color={textColor}
+             background={mode==="dark"?"grey":"white"}
+           textColor={mode==="dark"?"white":"black"}
            />
       } />
       <Route path="/login" element={
            <Login
-            background={secondaryColor}
-           color={textColor}
+             background={mode==="dark"?"grey":"white"}
+           textColor={mode==="dark"?"white":"black"}
            />
       } />
 
     </Routes>
     </div>
     <Footer
-     background={mainColor==="#33FF3C"?"grey":"black"}
-     color={textColor}
+      background={mode==="dark"?"black":"grey"}
+     textColor={mode==="dark"?"white":"black"}
     />
-
+</AppContext.Provider>
     </>
 
   );

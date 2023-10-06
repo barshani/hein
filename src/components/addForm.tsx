@@ -8,7 +8,7 @@ import validator from "validator";
 interface Props {
     onAdd: Function;
     background:string;
-    color:string;
+    textColor:string;
 }
 export enum Category {
     clothes = 'clothes',
@@ -19,34 +19,43 @@ export enum Category {
     home='home'
 }
 
-function AddForm({ onAdd,background,color }: Props) {
+function AddForm({ onAdd,background,textColor }: Props) {
     // const categories = ['shoes&eccesories','clothes','electricity','games','sports','home'];
     const categories: Array<Category> = Object.values(Category);
     const navigate = useNavigate();
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [color, setColor] = useState('');
+    const [size, setSize] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [imageALT, setImageALT] = useState('');
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
-    const [disable, setdisable] = useState(true);
      const [categoryId, setCategoryId] = useState(0);
     const [error, setError] = useState('')
-    function validate(): boolean {
-        if (!name) {
-            setError('*title is required')
+
+    function handleClick() {
+         if (!name) {
+            setError('*name is required')
             return false;
         }
         if (name.length<3) {
-            setError('*title is too short');
+            setError('*name is too short');
             return false;
         }
-        if (!description) {
-           setError('*discription is required');
+        if (!color) {
+           setError('*color is required');
             return false;
         }
-        if (description.length<3) {
-            setError('*discription is too short');
+        if (color.length<3) {
+            setError('*color is too short');
+            return false;
+        }
+        if (!size) {
+           setError('*size is required');
+            return false;
+        }
+        if (size.length<2) {
+            setError('*size is too short');
             return false;
         }
         if(!validator.isURL(imageURL)){
@@ -66,14 +75,10 @@ function AddForm({ onAdd,background,color }: Props) {
             return false;
         }
         setError('')
-        setdisable(false)
-        return true;
-    }
-
-    function handleClick() {
         onAdd({
             name,
-            description,
+            color,
+            size,
             imageURL,
             imageALT,
             price,
@@ -81,13 +86,12 @@ function AddForm({ onAdd,background,color }: Props) {
             
         })
         setName('')
-        setDescription('')
+        setColor('')
+        setSize('')
         setImageURL('')
         setImageALT('')
         setPrice('')
         setCategory('')
-        setdisable(true)
-        
     }
 
     return (
@@ -107,9 +111,9 @@ function AddForm({ onAdd,background,color }: Props) {
             <input
                 className="form-control me-3 col"
                 type="text"
-                placeholder="Description*"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Color*"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
             />
             </div>
             <div className="row mb-3">
@@ -136,16 +140,17 @@ function AddForm({ onAdd,background,color }: Props) {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
             />
-              <div className="mb-3">
+            <div className="col me-3">
                     <label
                         className="form-label"
                     >
-                        Category
+                        Category:
                     </label>
                     <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >
+                        <option value={''}></option>
                         {categories &&
                             categories.map(category =>
                                 <option
@@ -154,32 +159,31 @@ function AddForm({ onAdd,background,color }: Props) {
                             )
                         }
                     </select>
-                </div>
+                    </div>
             </div>
+            <input
+                className="form-control row w-50"
+                type="text"
+                placeholder="Size"
+                value={size}
+                onChange={(e) => {
+                    setSize(e.target.value)
+                }}
+            />
             <div className="row mx-auto w-50">
             <div className="text-center text-danger">{error}</div>
             <div className="row mx-auto gap-1">
             <button
-                className="btn col mx-auto"
+                className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}
                 onClick={()=>navigate(-1)}
-                 style={{background:background,color:color}}
+                style={{background:background,color:textColor}}
             >
                     back
             </button>
             <button
-                className="btn col mx-auto"
-                onClick={validate}
-                 style={{background:background,color:color}}
-            >
-            <i className="bi bi-arrow-repeat"></i>
-            </button>
-            </div>
-            <div className="row mx-auto mt-1">
-            <button
-                disabled={disable}
-                className="btn"
+                className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} 
                 onClick={handleClick}
-                style={{background:background,color:color}}
+                style={{background:background,color:textColor}}
             >
             add
             </button>

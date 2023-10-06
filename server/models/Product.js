@@ -8,6 +8,16 @@ const productSchema = new mongoose.Schema({
         minlength: 2,
         maxlength: 256,
     },
+    color: {
+        type: String,
+        minlength: 2,
+        maxlength: 1024,
+    },
+    size: {
+        type: String,
+        minlength: 2,
+        maxlength: 1024,
+    },
     description: {
         type: String,
         minlength: 2,

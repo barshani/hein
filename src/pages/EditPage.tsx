@@ -6,15 +6,15 @@ import { Product } from "./home";
 import EditForm from "../components/editForm";
 interface Props{
     background:string;
-    color:string;
+    textColor:string;
 }
-function EditPage({background,color}:Props){
+function EditPage({background,textColor}:Props){
     const [cards, setCards] = useState<Array<Product>>([]);
     const navigate=useNavigate()
  function onEdit(card: Product) {
         editProduct(card)
             .then(json => {
-                toast.success(`product name ${json.name} has been edited successfully`);
+                navigate(-1);
             })
     }
     return (
@@ -22,7 +22,7 @@ function EditPage({background,color}:Props){
            <EditForm 
            onEdit={onEdit}
            background={background}
-           color={color}
+           textColor={textColor}
            />
         </>
            )

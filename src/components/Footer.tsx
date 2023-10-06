@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom"
 interface Props {
     background: string;
-    color: string;
+    textColor: string;
 }
-function Footer({background,color}:Props){
+function Footer({background,textColor}:Props){
 return(
 <div className="p-2 d-flex text-center justify-content-evenly" style={{background:background}}>
     <div className="col">

@@ -1,3 +1,4 @@
+const { boolean } = require('joi');
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -72,6 +73,11 @@ const userSchema = new mongoose.Schema({
     zip: {
         type: String,
     },
+    isAdmin:{
+        type:Boolean,
+        required: true,
+        default: false
+    }
 });
 
 const User = mongoose.model('User', userSchema);

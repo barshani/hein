@@ -2,34 +2,54 @@ import { Link, NavLink } from "react-router-dom";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
-import { verifyToken } from "../auth/TokenManager";
 import Logout from "../auth/Logout";
+import { AppContext } from "../App";
+import { setMode } from "../auth/TokenManager";
 interface Props {
     background: string;
-    color:string;
+    textColor:string;
 }
-function Header({background,color}:Props) {
+function Header({background,textColor}:Props) {
+  const context = useContext(AppContext);
+  const [state,setState] = useState(true);
     return (
 
         <>
-         <Navbar  style={{backgroundColor:background}} collapseOnSelect expand="lg" fixed="top">
+         <Navbar className={background==='black'?"bg-dark":"bg-success"} collapseOnSelect expand="lg" fixed="top">
       <Container>
-        <Navbar.Brand style={{color:color}} href="#home">HeIn</Navbar.Brand> 
+        <Navbar.Brand style={{color:textColor}} href="#home">HeIn</Navbar.Brand> 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <NavLink className="nav-link" to="/"  style={{color:color}}>Home</NavLink>
-            {verifyToken()&&<NavLink className="nav-link" to="/collection" 
-            style={{color:color}}>Collection</NavLink>}
-            {verifyToken()&&<NavLink className="nav-link" to="/favorites" style={{color:color}}>Favorites</NavLink>}
+            <NavLink className="nav-link" to="/"  style={{color:textColor}}>Home</NavLink>
+            {context?.loggedIn&&<NavLink className="nav-link" to="/collection" 
+            style={{color:textColor}}>Collection</NavLink>}
+            {context?.loggedIn&&<NavLink className="nav-link" to="/favorites" style={{color:textColor}}>Favorites</NavLink>}
+            {context?.admin&&<NavLink className="nav-link" to="/addPage" style={{color:textColor}}>add</NavLink>}
           </Nav>
           <Nav>
-         {!verifyToken()&&<NavLink className="nav-link" to="/signup" style={{color:color}}>signup</NavLink>}
-        {!verifyToken()&&<NavLink className="nav-link" to="/login" style={{color:color}}>
+         {!state&&<Nav className="nav" 
+         style={{color:textColor}}
+         onClick={()=>{
+          setMode("dark");
+          context?.setMode("dark")
+          setState(true)
+         }}
+         ><i className="bi bi-moon-fill nav-link"></i></Nav>}
+         {state&&<Nav className="nav" 
+         style={{color:textColor}}
+         onClick={()=>{
+          setMode("light");
+          context?.setMode("light")
+          setState(false)
+         }}
+         ><i className="bi bi-sun-fill nav-link text-light"></i></Nav>}
+         {!context?.loggedIn&&<NavLink className="nav-link" to="/signup" style={{color:textColor}}>signup</NavLink>}
+        {!context?.loggedIn&&<NavLink className="nav-link" to="/login" style={{color:textColor}}>
               Login
             </NavLink>}
-            {
-          <NavDropdown title={<i className="bi bi-person-circle" style={{color:color}}></i>} id="basic-nav-dropdown" style={{color:color}}>
+            {context?.loggedIn&&
+          <NavDropdown title={<i className="bi bi-person-circle" style={{color:textColor}}></i>} id="basic-nav-dropdown" style={{color:textColor}}>
             <Logout/>
              </NavDropdown>
          }

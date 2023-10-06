@@ -6,15 +6,15 @@ import { Product } from "./home";
 import AddForm from "../components/addForm";
 interface Props{
     background:string;
-    color:string;
+    textColor:string;
 }
-function AddPage({background,color}:Props){
+function AddPage({background,textColor}:Props){
     const [cards, setCards] = useState<Array<Product>>([]);
     const navigate=useNavigate()
  function onAdd(product: Product) {
         addProduct(product)
             .then(json => {
-                toast.success(`product named ${json.name} has been added successfully`);
+                navigate(-1)
            
             })
     }
@@ -23,7 +23,7 @@ function AddPage({background,color}:Props){
            <AddForm 
            onAdd={onAdd}
            background={background}
-           color={color}
+           textColor={textColor}
            />
         </>
            )

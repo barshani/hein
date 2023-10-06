@@ -3,29 +3,39 @@ import { addToCart, addToFavorites, deleteCartProduct, deleteFavProduct, deleteP
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate} from "react-router-dom";
 import Title from "../components/Title";
-import {getUserID, isAdmin} from "../auth/TokenManager";
+import {getUserID} from "../auth/TokenManager";
 import { Cart, Product } from "./home";
 import { updateSourceFile } from "typescript";
 import validator from "validator";
+import { Category } from "../components/addForm";
+import { AppContext } from "../App";
 interface Props{
     background:string
-    color:string
+    textColor:string
 }
 
-function CollectionPage({background,color}:Props){
+function CollectionPage({background,textColor}:Props){    
+   const context = useContext(AppContext);
    const [products, setProducts] = useState<Array<Product>>([]);
    const [cartProducts, setCartProducts] = useState<Array<Product>>([]);
    const [cart, setCart] = useState<Array<Cart>>([]);
    const [favProducts, setFavProducts] = useState<Array<Product>>([]);
    const [total,setTotal]=useState(1);
+   const [category, setCategory] = useState('');
    const [quantity,setQuantity]=useState(1);
    const [shoppingList,setShoppingList]=useState<Array<Product>>([]);
    const [search, setSearch] = useState('');
+   const [show,setShow] = useState(true);
+   const [searchProducts, setSearchProducts] = useState<Array<Product>>([]);
+   const [categoryProducts, setCategoryProducts] = useState<Array<Product>>([]);
    const navigate=useNavigate()
        useEffect(() => {
         getProducts()
             .then(json => {
-                setProducts(json);
+                const sorted=json.sort((a,b)=> a.name > b.name ? 1 : -1)
+                setProducts(sorted);
+                setCategoryProducts(sorted);
+                setSearchProducts(sorted);
             })
     }, []);
        useEffect(() => {
@@ -46,7 +56,6 @@ function CollectionPage({background,color}:Props){
         const userID=getUserID();
          getCartProducts(userID)
             .then(json => {
-                console.log("hii")
                 setCartProducts(json);
                 var sum=0;
                 json.map(product=>{
@@ -63,7 +72,7 @@ function CollectionPage({background,color}:Props){
             product => product._id !== productID
         )
         setProducts(updated)
-        toast.success('product has been deleted');
+        setSearchProducts(updated)
     }
      async function addFavorites(product:Product) {
         const userID=getUserID()
@@ -74,7 +83,6 @@ function CollectionPage({background,color}:Props){
         );
         const newFav=products.map(product=>product._id===productID)
         setFavProducts([...favProducts,product])
-        toast.success('product has added to your favorites');
     }
      async function addCartProduct(product:Product) {
         const userID=getUserID()
@@ -91,7 +99,6 @@ function CollectionPage({background,color}:Props){
         }
         else
            setTotal(total+Number(product.price))
-        toast.success('product has added to your cart');
     }
     async function deleteFavorite(productID:string){
          const userID=getUserID()
@@ -100,7 +107,6 @@ function CollectionPage({background,color}:Props){
             favorites => favorites._id !== productID
         )
         setFavProducts(updated)
-          toast.success('product has deleted from your favorites');
     }
     async function deleteProductFromCart(productID:string,price:String){
          const userID=getUserID()
@@ -110,7 +116,6 @@ function CollectionPage({background,color}:Props){
         )
         setTotal(total-Number(price))
         setCartProducts(updated)
-          toast.success('product has deleted from your cart');
     }
     function isFavorite(productID:string) {
         let bol=false;
@@ -129,79 +134,120 @@ function CollectionPage({background,color}:Props){
             }
         })
         return bol
-    }
+    } 
+     function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+        const value = e.target.value;
+        setSearch(value);
+        const normalizedValue = value.trim().toLowerCase();
+        const updated = [...categoryProducts].filter(
+            product =>product.name.toLowerCase().startsWith(normalizedValue)&&
+            product.category.toLowerCase().startsWith(category)
+        );
+        setSearchProducts(updated);
+        }
+     function handleCategory(category:string) {
+        setSearch('');
+        if(category!=''){
+        const updated = [...products].filter(
+            product =>product.category===category
+            );
+            setCategoryProducts(updated);
+            setSearchProducts(updated);
+        }
+        else{
+            setCategoryProducts(products);
+            setSearchProducts(products);
+        }
+        }
     return (
         <>
-          <ToastContainer />
         <div className="w-75 mx-auto col-12 gap-5">
-            {cartProducts.length&&<div className="list" style={{
+            {show&&cartProducts.length>0&&<div className="list me-2" style={{
                 position: 'fixed',
                 right: 0,
                 zIndex:100,
                 width: '300px',
-                border: '3px solid black',
+                border: '1px solid black',
                 background:background
                 }}>
-            <h3 className="ms-2"><i className="bi bi-cart"></i> shopping cart</h3>
+                    <div className="w-100">
+            <h4 className="ms-2 w-75"><i onClick={()=>setShow(false)} className="bi bi-arrow-right"></i><i className="bi bi-cart"></i> shopping cart</h4>
+            
+            </div>
              <ul>
                     <li className="list-group-item">items:{cartProducts.length}</li>
                     <li className="list-group-item">total:{total}</li>
             </ul>
-            <button className="btn btn-success w-100" onClick={
+            <button className={background=='grey'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
                 ()=>{
                     navigate('../cart')
                 }}>buy</button>
         </div>}
-        <div className="mx-auto" style={{paddingTop:'15vh'}}>
-        <Title mainText="Cards" subText="Here you can find business cards from all categories"></Title>
+            {!show&&cartProducts.length>0&&<div className="list me-2" style={{
+                position: 'fixed',
+                right: 0,
+                zIndex:100,
+                width: '80px',
+                border: '1px solid black',
+                background:background
+                }}>
+            <h4 className="ms-2"><i onClick={()=>setShow(true)} className="bi bi-arrow-left"></i><i className="bi bi-cart"></i></h4>
+            <div className="ms-2 mb-3">
+                     <li className="list-group-item">items:{cartProducts.length}</li>
+                    <li className="list-group-item">total:{total}</li>
+             </div>
+            <button className={background=='grey'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
+                ()=>{
+                    navigate('../cart')
+                }}>buy</button>
+        </div>}
+        <div className="mx-auto" style={{paddingTop:'10vh'}}>
+        <div className="d-flex row justify-content-center mb-3 w-75 mx-auto">
+            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('')}>all<br/><i className=""></i></button>
+            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('clothes')}>clothes<br/><i className="bi bi-handbag-fill"></i></button>
+            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('shoes&eccesories')}>shoes&<br/>eccesories<br/></button>
+            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('electricity')}>electricity<br/><i className="bi bi-lightning"></i></button>
+            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('games')}>games<br/><i className="bi bi-joystick"></i></button>
+            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('sports')}>sports<br/><i className="bi bi-trophy-fill"></i></button>
+            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('home')}>home<br/><i className="bi bi-house-fill"></i></button>
+        </div>
         <div className="d-flex pb-3 me-5 gap-5 justify-content-center">
           <input
                         className="form-control mx-3 mb-3 w-25"
                         placeholder="Search"
-                        // value={search}
+                        value={search}
+                        onChange={handleSearch}
                     />
-                 {<button
-                className="btn"
-                style= 
-    {{backgroundColor:background==='grey'?'black':'grey'}}
-            >
-             <Link
-                    to="/addPage"
-                    className="btn"
-                    style={{color:color}}
-                >
-                    add product
-                </Link>
-            </button>}
             </div>
-                           <div className="d-flex flex-wrap justify-content-between ms-3 gap-3">
+                           <div className="d-flex flex-wrap justify-content-start ms-3 gap-4 pb-5">
                     {
-                        products.map(product =>
-                           <div className="card" key={product._id}style={{width:"22rem",height:"40rem",backgroundColor:background==='grey'?'black':'white',color:color}}>
+                        searchProducts.map(product =>
+                           <div className="card" key={product._id}style={{width:"22rem",height:"45rem",backgroundColor:background==='grey'?'black':'white',color:textColor}}>
                             {product.imageURL&&product.imageALT&&<img src={product.imageURL} alt={product.imageALT} className="card-img-top h-50"/>}
                             {product.imageURL&&!product.imageALT&&<img src={product.imageURL} className="card-img-top h-50"/>}
                             {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg'} className="card-img-top h-50" alt="Logo" />}
                            
                             <div className="card-body">
-                            <h5 className="card-title">{product.name}</h5>
-                            <p className="card-text">{product.description}</p>
+                            <h5 className="card-title fw-bold">{product.name}</h5>
+                            <p className="card-text"><span className="fw-bold">color:</span>{product.color}</p>
+                            <p className="card-text"><span className="fw-bold">size:</span>{product.size}</p>
                             <hr />
-                            <p className="card-text">{product.category}</p>
-                            <p className="card-text">{product.price}$</p>
+                            <p className="card-text"><span className="fw-bold">price:</span>{product.price}$</p>
+                            <p className="card-text"><span className="fw-bold">category:</span>{product.category}</p>
                             <div className="col">
                             </div>
                             <div className="d-flex justify-content-around col">
-                            {<button
+                            {context?.admin&&<button
                              className="btn btn-default"
                              onClick={()=>onDelete(product._id)}
                                  >
-                            <i className="bi bi-trash" style={{color:color}}/>
+                            <i className="bi bi-trash" style={{color:textColor}}/>
                             </button>}
-                            {<button
+                            {context?.admin&&<button
                              className="btn btn-default"
                                  >
                             <Link to={`/editPage/${product._id}`}>
-                            <i className="bi bi-pencil-fill" style={{color:color}}/>
+                            <i className="bi bi-pencil-fill" style={{color:textColor}}/>
                             </Link>
                             </button>}
                                  {!isFavorite(product._id)&&<button
@@ -211,7 +257,7 @@ function CollectionPage({background,color}:Props){
                              }
                             }
                                  >
-                            <i className="bi bi-heart" style={{color:color}}/>
+                            <i className="bi bi-heart" style={{color:textColor}}/>
                            </button>}
                             {isFavorite(product._id)&&<button
                              className="btn btn-default"
@@ -222,24 +268,15 @@ function CollectionPage({background,color}:Props){
                                  >
                             <i className="bi bi-heart-fill" />
                             </button>}
-                             <button
-                             className="btn btn-default"
-                                 >
-                            <Link to={``}>
-                            <i className="bi bi-telephone-fill" style={{color:color}}/>
-                            </Link>
-                            </button>
                             </div>
                             {!isCartProduct(product._id)&&<button 
-                            className="btn w-100 mt-3" 
-                            style={{backgroundColor:background==='grey'?'black':'grey', color:color}}
+                            className={background=='grey'?"btn btn-dark w-100 mt-5":"btn btn-outline-success w-100 mt-5"} 
                             onClick={()=>{
                                 addCartProduct(product)
                             }}
                             >add to cart</button>}
                             {isCartProduct(product._id)&&<button 
-                            className="btn w-100 mt-3" 
-                            style={{backgroundColor:background==='grey'?'black':'grey', color:color}}
+                            className={background=='grey'?"btn btn-danger w-100 mt-5":"btn btn-outline-danger w-100 mt-5"} 
                             onClick={()=>{
                                 deleteProductFromCart(product._id,product.price)
                             }}

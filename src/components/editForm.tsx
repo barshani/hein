@@ -9,18 +9,18 @@ import validator from "validator";
 interface Props {
     onEdit: Function;
     background:string;
-    color:string;
+    textColor:string;
 }
 
-function EditForm({onEdit,background,color}:Props) {
+function EditForm({onEdit,background,textColor}:Props) {
      const navigate = useNavigate();
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [color, setColor] = useState('');
+    const [size, setSize] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [imageALT, setImageALT] = useState('');
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
-    const [disable, setdisable] = useState(true);
     const [error, setError] = useState('')
     const {_id} =useParams();
       useEffect(() => {
@@ -28,14 +28,15 @@ function EditForm({onEdit,background,color}:Props) {
         getProduct(_id)
             .then(product => {
                setName(product.name)
-               setDescription(product.description)
+               setColor(product.color)
+               setSize(product.size)
                setImageURL(product.imageURL||'')
                setImageALT(product.imageALT||'')
                setPrice(product.price)
                setCategory(product.category||'')
             })
     }, [_id])
-     function validate(): boolean {
+    function handleClick() {
         if (!name) {
             setError('*title is required')
             return false;
@@ -44,12 +45,20 @@ function EditForm({onEdit,background,color}:Props) {
             setError('*title is too short');
             return false;
         }
-        if (!description) {
-           setError('*discription is required');
+        if (!color) {
+           setError('*color is required');
             return false;
         }
-        if (description.length<3) {
-            setError('*discription is too short');
+        if (color.length<3) {
+            setError('*color is too short');
+            return false;
+        }
+        if (!size) {
+           setError('*size is required');
+            return false;
+        }
+        if (size.length<3) {
+            setError('*size is too short');
             return false;
         }
         if(!validator.isURL(imageURL)){
@@ -60,7 +69,7 @@ function EditForm({onEdit,background,color}:Props) {
            setError('*price is required');
             return false;
         }
-        if (!validator.isNumeric(price)) {
+        if (!Number(price)) {
             setError('*price must be number');
             return false;
         }
@@ -68,23 +77,19 @@ function EditForm({onEdit,background,color}:Props) {
            setError('*category is required');
             return false;
         }
+        else{
+           onEdit({
+              _id,
+              name,
+              color,
+              size,
+              imageURL,
+              imageALT,
+              price,
+              category,
+           })
+        }
         setError('')
-        setdisable(false)
-        return true;
-    }
-
-    function handleClick() {
-        onEdit({
-            _id,
-            name,
-            description,
-            imageURL,
-            imageALT,
-            price,
-            category,
-        })
-        setdisable(true);
-        
     }
 
     return (
@@ -101,17 +106,15 @@ function EditForm({onEdit,background,color}:Props) {
                 value={name}
                 onChange={(e) => {
                     setName(e.target.value); 
-                    setdisable(true);
                 }}
             />
             <input
                 className="form-control me-3 col"
                 type="text"
-                placeholder="Description*"
-                value={description}
+                placeholder="Color*"
+                value={color}
                 onChange={(e) => {
-                    setDescription(e.target.value);
-                    setdisable(true);
+                    setColor(e.target.value);
                 }}
             />
             </div>
@@ -123,7 +126,6 @@ function EditForm({onEdit,background,color}:Props) {
                 value={imageURL}
                 onChange={(e) =>{
                     setImageURL(e.target.value);
-                    setdisable(true);
                 }}
             />
             <input
@@ -133,29 +135,37 @@ function EditForm({onEdit,background,color}:Props) {
                 value={imageALT}
                 onChange={(e) => {
                     setImageALT(e.target.value)
-                    setdisable(true);
                 }}
             />
             </div>
             <div className="row mb-3">
             <input
                 className="form-control me-3 col"
-                type="string"
-                placeholder="price"
+                type="text"
+                placeholder="Price"
                 value={price}
                 onChange={(e) => {
                     setPrice(e.target.value)
-                    setdisable(true);
                 }}
             />
             <input
                 className="form-control me-3 col"
                 type="text"
-                placeholder="category*"
+                placeholder="Category*"
                 value={category}
                 onChange={(e) => {
                     setCategory(e.target.value);
-                    setdisable(true);
+                }}
+            />
+            </div>
+            <div className="row mb-3">
+            <input
+                className="form-control me-3 col"
+                type="text"
+                placeholder="Size"
+                value={size}
+                onChange={(e) => {
+                    setSize(e.target.value)
                 }}
             />
             </div>
@@ -163,24 +173,14 @@ function EditForm({onEdit,background,color}:Props) {
             <div className="text-center text-danger">{error}</div>
             <div className="row mx-auto gap-1">
             <button
-                className="btn col mx-auto"
+                className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}
                 onClick={()=>navigate(-1)}
                 style={{background:background,color:color}}
             >
                     back
             </button>
             <button
-                className="btn col mx-auto"
-                onClick={validate}
-                style={{background:background,color:color}}
-            >
-            <i className="bi bi-arrow-repeat"></i>
-            </button>
-            </div>
-            <div className="row mx-auto mt-1">
-            <button
-                disabled={disable}
-                className="btn"
+                className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}
                 onClick={handleClick}
                 style={{background:background,color:color}}
             >

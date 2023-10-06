@@ -134,7 +134,6 @@ export async function getFavProducts(userID:string):Promise<Array<Product>> {
 }
 export async function getCartProducts(userID:string):Promise<Array<Product>> {
     const res=await getCarts(userID)
-    console.log(res)
     const res2=await getProducts()
     const filter=res2.filter(product=>{
          let bol=false
@@ -142,10 +141,8 @@ export async function getCartProducts(userID:string):Promise<Array<Product>> {
         if(product._id===cart.productID)
            bol=true;
     }))
-    return bol;
-    
+    return bol;  
 })
-console.log(filter)
     return filter;
 }
 export async function getNotFavProducts(userID:string):Promise<Array<Product>> {

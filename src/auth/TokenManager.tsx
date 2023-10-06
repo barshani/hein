@@ -1,6 +1,7 @@
 const tokenKey = 'token';
 const idKey='id';
 const adminKey='isAdmin';
+const modeKey='mode';
 export function setToken(tokenValue?: string) {
     if (!tokenValue) return;
     localStorage.setItem(tokenKey, tokenValue);
@@ -36,4 +37,14 @@ export function removeAdmin() {
 }
 export function isAdmin(): boolean {
     return getAdmin()==="yes";
+}
+export function setMode(modeValue?: string) {
+    if (!modeValue) return;
+        localStorage.setItem(modeKey, modeValue);
+}
+export function removeMode() {
+    localStorage.removeItem(modeKey);
+}
+export function getMode(): string {
+    return localStorage.getItem(modeKey) || '';
 }

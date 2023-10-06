@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { login, signup } from "../services/apiService";
-import { setToken, setAdmin, isAdmin, setUserID } from "./TokenManager";
+import { setAdmin, setToken, setUserID } from "./TokenManager";
 import Title from "../components/Title";
+import { AppContext } from "../App";
 
 export interface loginUser {
     id?: string;
@@ -27,9 +28,10 @@ export interface loginUser {
 }
 interface Props{
     background:string;
-    color:string;
+    textColor:string;
 }
-function Login({background,color}:Props){
+function Login({background,textColor}:Props){
+    const context = useContext(AppContext);
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -60,9 +62,12 @@ function Login({background,color}:Props){
             .then((user) => {
                 setUserID(user.id)
                 setToken(user.token)
-                setAdmin(user.isAdmin===true? "yes":"no")
+                setAdmin(user.isAdmin?"yes":"no")
+                if(context){
+                context.setAdmin(user.isAdmin);
+                context.setLoggedIn(true);
+                }
                 navigate('/');
-                window.location.reload()
             }).catch(()=>setError('invalid password or email'))
         setEmail('')
         setPassword('')
@@ -92,25 +97,19 @@ return(
             />
             </div>
             <div className="row">
-             <div className="col w-50 mb-1">
             <div className="row text-center text-danger">{error}</div>
             <button
-                className="btn btn-info"
+                className={background=='grey'?"btn btn-dark w-50":"btn btn-outline-success w-50"}
                 onClick={handleClick}
-                style={{background:background,color:color}}
             >
             login
             </button>
-            </div>
-             <div className="col w-50">
             <button
-                className="btn btn-info"
+                className={background=='grey'?"btn btn-dark w-50":"btn btn-outline-success w-50"}
                 onClick={()=>navigate('/signup')}
-                style={{background:background,color:color}}
             >
             signup
             </button>
-            </div>
             </div>
         </div>
         </div>

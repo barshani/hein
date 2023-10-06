@@ -27,9 +27,9 @@ export interface User {
 }
 interface Props{
     background:string;
-    color:string;
+    textColor:string;
 }
-function SignUp({background,color}:Props){
+function SignUp({background,textColor}:Props){
      const navigate = useNavigate();
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
@@ -286,36 +286,22 @@ return(
             </div>
              <div className="row mx-auto w-50 pb-3 gap-1">
             <div className="text-center text-danger">{error}</div>
-            <div className="row mx-auto gap-1">
             <button
-                className="btn col mx-auto"
-                style={{background:background,color:color}}
+                className={background=='grey'?"btn btn-dark col w-50":"btn btn-outline-success col w-50"}
             >
                 <Link
                     to="/login"
-                    className="btn"
+                    className="nav-link"
                 >
                     Cancel
                 </Link>
             </button>
             <button
-                className="btn col mx-auto"
-                onClick={validate}
-                style={{background:background,color:color}}
-            >
-            <i className="bi bi-arrow-repeat"></i>
-            </button>
-            </div>
-            <div className="row mx-auto">
-            <button
-                disabled={disable}
-                className="btn"
+                className={background=='grey'?"btn btn-dark col w-50":"btn btn-outline-success col w-50"}
                 onClick={handleClick}
-                style={{background:background,color:color}}
             >
             add
             </button>
-            </div>
         </div>
         </div>
         </div>

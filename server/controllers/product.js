@@ -40,7 +40,8 @@ module.exports = {
         try {
             const schema = joi.object({
                 name: joi.string().min(2).max(256).required(),
-                description: joi.string().min(2).max(1024).allow(''),
+                color: joi.string().min(2).max(1024).allow(''),
+                size: joi.string().min(2).max(1024).allow(''),
                 imageURL: joi.string().allow(''),
                 imageALT: joi.string().allow(''),
                 price: joi.string().required(),
@@ -69,7 +70,8 @@ module.exports = {
             const schema = joi.object({
                  _id: joi.required(),
                 name: joi.string().min(2).max(256).required(),
-                description: joi.string().min(2).max(1024).allow(''),
+                color: joi.string().min(2).max(1024).allow(''),
+                size: joi.string().min(2).max(1024).allow(''),
                 imageURL: joi.string().allow(''),
                 imageALT: joi.string().allow(''),
                 price: joi.number().required(),
