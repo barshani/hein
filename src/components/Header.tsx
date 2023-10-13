@@ -11,7 +11,7 @@ interface Props {
 }
 function Header({background,textColor}:Props) {
   const context = useContext(AppContext);
-  const [state,setState] = useState(true);
+  const [state,setState] = useState(context?.mode==='dark');
     return (
 
         <>

@@ -175,14 +175,12 @@ function EditForm({onEdit,background,textColor}:Props) {
             <button
                 className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}
                 onClick={()=>navigate(-1)}
-                style={{background:background,color:color}}
             >
                     back
             </button>
             <button
                 className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}
                 onClick={handleClick}
-                style={{background:background,color:color}}
             >
             Update
             </button>

@@ -51,16 +51,14 @@ function Home({background,textColor}:Props){
                    {!verifyToken()&& <p>
                      <p>sign now to watch our colection and choose your favorites</p>
                         <button
-                         className="btn btn-outline btn-lg" 
-                         style={{borderColor:textColor ,color:textColor}}
+                        className={background=='black'?"btn btn-dark":"btn btn-outline-success"}
                          onClick={()=>navigate('/signup')}
                          >Lets Start</button>
                     </p>}
                    {verifyToken()&& 
                    <p>
                         <button
-                         className="btn btn-outline btn-lg" 
-                         style={{borderColor:textColor,color:textColor ,background:background}}
+                          className={background=='black'?"btn btn-dark":"btn btn-outline-success"}
                          onClick={()=>navigate('/collection')}
                          >watch our collection</button>
                     </p>
@@ -83,27 +81,6 @@ function Home({background,textColor}:Props){
                             <hr />
                             <p className="card-text"><span className="fw-bold">price:</span>{product.price}$</p>
                             <p className="card-text"><span className="fw-bold">category:</span>{product.category}</p>
-                            <div className="row">
-                            <div className="col">
-                             <button
-                             className="btn btn-default"
-                                 >
-                            <i className="bi bi-trash" style={{color:textColor}}/>
-                            </button>
-                            </div>
-                            <div className="d-flex justify-content-end col">
-                            <button
-                             className="btn btn-default"
-                                 >
-                            <i className="bi bi-heart" style={{color:textColor}} />
-                           </button>
-                             <button
-                             className="btn btn-default"
-                                 >
-                            <i className="bi bi-telephone-fill" style={{color:textColor}}/>
-                            </button>
-                            </div>
-                            </div>
                             </div>
                            </div>
                      )

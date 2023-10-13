@@ -86,7 +86,7 @@ return(
                 type="text"
                 placeholder="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLowerCase())}
             />
             <input
                 className="form-control me-3"

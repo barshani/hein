@@ -174,16 +174,14 @@ function AddForm({ onAdd,background,textColor }: Props) {
             <div className="text-center text-danger">{error}</div>
             <div className="row mx-auto gap-1">
             <button
-                className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}
+                className={background=='grey'?"btn btn-dark mt-1 col":"btn btn-outline-success mt-1 col"}
                 onClick={()=>navigate(-1)}
-                style={{background:background,color:textColor}}
             >
                     back
             </button>
             <button
-                className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} 
+                className={background=='grey'?"btn btn-dark mt-1 col":"btn btn-outline-success mt-1 col"} 
                 onClick={handleClick}
-                style={{background:background,color:textColor}}
             >
             add
             </button>

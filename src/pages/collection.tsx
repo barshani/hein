@@ -22,7 +22,7 @@ function CollectionPage({background,textColor}:Props){
    const [favProducts, setFavProducts] = useState<Array<Product>>([]);
    const [total,setTotal]=useState(1);
    const [category, setCategory] = useState('');
-   const [quantity,setQuantity]=useState(1);
+   const [number,setNumber]=useState('');
    const [shoppingList,setShoppingList]=useState<Array<Product>>([]);
    const [search, setSearch] = useState('');
    const [show,setShow] = useState(true);
@@ -87,6 +87,7 @@ function CollectionPage({background,textColor}:Props){
      async function addCartProduct(product:Product) {
         const userID=getUserID()
         const productID=product._id
+        const quantity=Number(number)
         addToCart(
            { userID,
             productID,
@@ -178,7 +179,7 @@ function CollectionPage({background,textColor}:Props){
                     <li className="list-group-item">items:{cartProducts.length}</li>
                     <li className="list-group-item">total:{total}</li>
             </ul>
-            <button className={background=='grey'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
+            <button className={background=='black'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
                 ()=>{
                     navigate('../cart')
                 }}>buy</button>
@@ -196,20 +197,20 @@ function CollectionPage({background,textColor}:Props){
                      <li className="list-group-item">items:{cartProducts.length}</li>
                     <li className="list-group-item">total:{total}</li>
              </div>
-            <button className={background=='grey'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
+            <button className={background=='black'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
                 ()=>{
                     navigate('../cart')
                 }}>buy</button>
         </div>}
         <div className="mx-auto" style={{paddingTop:'10vh'}}>
         <div className="d-flex row justify-content-center mb-3 w-75 mx-auto">
-            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('')}>all<br/><i className=""></i></button>
-            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('clothes')}>clothes<br/><i className="bi bi-handbag-fill"></i></button>
-            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('shoes&eccesories')}>shoes&<br/>eccesories<br/></button>
-            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('electricity')}>electricity<br/><i className="bi bi-lightning"></i></button>
-            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('games')}>games<br/><i className="bi bi-joystick"></i></button>
-            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('sports')}>sports<br/><i className="bi bi-trophy-fill"></i></button>
-            <button className={background=='grey'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('home')}>home<br/><i className="bi bi-house-fill"></i></button>
+            <button className={background=='black'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('')}>all<br/><i className=""></i></button>
+            <button className={background=='black'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('clothes')}>clothes<br/><i className="bi bi-handbag-fill"></i></button>
+            <button className={background=='black'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('shoes&eccesories')}>shoes&<br/>eccesories<br/></button>
+            <button className={background=='black'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('electricity')}>electricity<br/><i className="bi bi-lightning"></i></button>
+            <button className={background=='black'?"btn btn-dark col":"btn btn-outline-success col"}  onClick={()=>handleCategory('games')}>games<br/><i className="bi bi-joystick"></i></button>
+            <button className={background=='black'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('sports')}>sports<br/><i className="bi bi-trophy-fill"></i></button>
+            <button className={background=='black'?"btn btn-dark col":"btn btn-outline-success col"} onClick={()=>handleCategory('home')}>home<br/><i className="bi bi-house-fill"></i></button>
         </div>
         <div className="d-flex pb-3 me-5 gap-5 justify-content-center">
           <input
@@ -222,7 +223,7 @@ function CollectionPage({background,textColor}:Props){
                            <div className="d-flex flex-wrap justify-content-start ms-3 gap-4 pb-5">
                     {
                         searchProducts.map(product =>
-                           <div className="card" key={product._id}style={{width:"22rem",height:"45rem",backgroundColor:background==='grey'?'black':'white',color:textColor}}>
+                           <div className="card" key={product._id}style={{width:"22rem",height:"45rem",background:background,color:textColor}}>
                             {product.imageURL&&product.imageALT&&<img src={product.imageURL} alt={product.imageALT} className="card-img-top h-50"/>}
                             {product.imageURL&&!product.imageALT&&<img src={product.imageURL} className="card-img-top h-50"/>}
                             {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg'} className="card-img-top h-50" alt="Logo" />}
@@ -270,13 +271,14 @@ function CollectionPage({background,textColor}:Props){
                             </button>}
                             </div>
                             {!isCartProduct(product._id)&&<button 
-                            className={background=='grey'?"btn btn-dark w-100 mt-5":"btn btn-outline-success w-100 mt-5"} 
+                            className={background=='black'?"btn btn-dark mt-5 w-100":"btn btn-outline-success mt-5 w-100"} 
                             onClick={()=>{
                                 addCartProduct(product)
                             }}
-                            >add to cart</button>}
+                            >add to cart</button>
+                            }
                             {isCartProduct(product._id)&&<button 
-                            className={background=='grey'?"btn btn-danger w-100 mt-5":"btn btn-outline-danger w-100 mt-5"} 
+                            className={background=='black'?"btn btn-danger w-100 mt-5":"btn btn-outline-danger w-100 mt-5"} 
                             onClick={()=>{
                                 deleteProductFromCart(product._id,product.price)
                             }}

@@ -22,7 +22,7 @@ function FavProductsPage({background,textColor}:Props){
    const [show,setShow] = useState(true);
    const [searchProducts, setSearchProducts] = useState<Array<Product>>([]);
    const [categoryProducts, setCategoryProducts] = useState<Array<Product>>([]);
-   const navigate=useNavigate()
+    const navigate=useNavigate()
     useEffect(() => {
         const userID=getUserID();
         getFavProducts(userID)
@@ -146,7 +146,7 @@ function FavProductsPage({background,textColor}:Props){
                     navigate('../cart')
                 }}>buy</button>
         </div>}
-        <div className="w-75 mx-auto" style={{paddingTop:'15vh',minHeight:'90vh'}}>
+        <div className="w-75 mx-auto" style={{paddingTop:'15vh'}}>
         <Title mainText="Favorites"></Title>
           <input
                         className="form-control mx-3 mb-3 w-25"

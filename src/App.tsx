@@ -53,7 +53,7 @@ function App() {
        background={mode==="dark"?"black":"white"}
        textColor={mode==="dark"?"white":"black"}
        />
-      <div className='main-div' style={{backgroundColor:mode==='dark'?'grey':'white',color:mode==='dark'?'white':'black',paddingTop:'10vh'}}>
+      <div className='main-div' style={{backgroundColor:mode==='dark'?'grey':'white',color:mode==='dark'?'white':'black',paddingTop:'10vh',minHeight:'100vh'}}>
     <Routes>
       <Route path="/" element={
            <Home 
