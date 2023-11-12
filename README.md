@@ -22,6 +22,8 @@ and in the and can buy the product they add to cart
 
 can do what regular and can create is own product cards by pressing the add button in the navbar, and can watch them on the collection page and also edit them by pressing on the pencil button and delete them by pressing the trash symbol.
 
+you can add admin user using postman
+
 # navbar and footer
 
 is showing the pages you can visit depends of what user you are.
