@@ -11,8 +11,6 @@ var usersRouter = require('./routes/users');
 var favoriteRouter = require('./routes/favorites');
 var cartsRouter = require('./routes/carts');
 var productsRouter = require('./routes/products');
-var adminsRouter = require('./routes/admins');
-
 var app = express();
 
 app.use(logger('dev'));
@@ -27,6 +25,5 @@ app.use('/users', usersRouter);
 app.use('/favorites', auth, favoriteRouter);
 app.use('/products', auth, productsRouter);
 app.use('/carts', auth, cartsRouter);
-app.use('/admins',auth, adminsRouter);
 
 module.exports = app;

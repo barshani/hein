@@ -53,7 +53,7 @@ function PurchasePage({background,textColor}:Props){
         else{
           setError('')
           deleteAllCartProduct().then(()=>
-          navigate('/collection'))
+           navigate('/collection'))
         }
         
     }

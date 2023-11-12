@@ -58,6 +58,7 @@ module.exports = {
             street: joi.string().min(2).max(1024).required(),
             houseNum: joi.string().min(1).max(1024).required(),
             zip: joi.string().allow(''),
+            isAdmin: joi.boolean().allow(''),
         });
 
         const { error, value } = schema.validate(req.body);
@@ -90,7 +91,8 @@ module.exports = {
                 city: value.city,
                 street: value.street,
                 houseNum: value.houseNum,
-                zip: value.zip
+                zip: value.zip,
+                isAdmin: value.isAdmin
             });
 
             await newUser.save();

@@ -73,7 +73,7 @@ function CartPage({background,textColor}:Props){
                            <div className="d-flex flex-wrap justify-content-between ms-3 pb-5 gap-3">
                     {
                         searchProducts.map(product =>
-                           <div className="card" key={product._id}style={{width:"22rem",height:"35rem",backgroundColor:background==='grey'?'black':'white',color:textColor}}>
+                           <div className="card" key={product._id}style={{width:"22rem",height:"45rem",backgroundColor:background==='grey'?'black':'white',color:textColor}}>
                             {product.imageURL&&product.imageALT&&<img src={product.imageURL} alt={product.imageALT} className="card-img-top h-50"/>}
                             {product.imageURL&&!product.imageALT&&<img src={product.imageURL} className="card-img-top h-50"/>}
                             {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg'} className="card-img-top h-50" alt="Logo" />}
@@ -87,7 +87,7 @@ function CartPage({background,textColor}:Props){
                             <p className="card-text"><span className="fw-bold">category:</span>{product.category}</p>
                             </div>
                             <button 
-                            className={background=='grey'?"btn btn-danger w-100 mt-5":"btn btn-outline-danger w-100 mt-5"} 
+                            className={background=='grey'?"btn btn-danger w-100 mb-2":"btn btn-outline-danger w-100 mb-2"} 
                             onClick={()=>{
                                 deleteProductFromCart(product._id,product.price)
                             }}
