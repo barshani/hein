@@ -34,7 +34,8 @@ function Home({background,textColor}:Props){
         getProducts()
             .then(json => {
                 const sorted=json.sort((a,b)=> 0.5 - Math.random())
-                setProducts([sorted[0],sorted[1],sorted[2]]);
+                if(sorted.length>0)
+                    setProducts([sorted[0],sorted[1],sorted[2]]);
             })
     }, []);
     return(
