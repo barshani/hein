@@ -71,8 +71,11 @@ function CollectionPage({background,textColor}:Props){
         const updated = [...products].filter(
             product => product._id !== productID
         )
+        const updated2 = [...searchProducts].filter(
+            product => product._id !== productID
+        )
         setProducts(updated)
-        setSearchProducts(updated)
+        setSearchProducts(updated2)
     }
      async function addFavorites(product:Product) {
         const userID=getUserID()

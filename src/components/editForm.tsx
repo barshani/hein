@@ -5,6 +5,7 @@ import Title from "./Title";
 import { getProduct } from "../services/apiService";
 import { getUserID } from "../auth/TokenManager";
 import validator from "validator";
+import { Category } from "./addForm";
 
 interface Props {
     onEdit: Function;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 function EditForm({onEdit,background,textColor}:Props) {
+    const categories: Array<Category> = Object.values(Category);
      const navigate = useNavigate();
     const [name, setName] = useState('');
     const [color, setColor] = useState('');
@@ -148,19 +150,29 @@ function EditForm({onEdit,background,textColor}:Props) {
                     setPrice(e.target.value)
                 }}
             />
-            <input
-                className="form-control me-3 col"
-                type="text"
-                placeholder="Category*"
-                value={category}
-                onChange={(e) => {
-                    setCategory(e.target.value);
-                }}
-            />
+             <div className="col me-3">
+                    <label
+                        className="form-label"
+                    >
+                        Category:
+                    </label>
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
+                        <option value={''}></option>
+                        {categories &&
+                            categories.map(category =>
+                                <option
+                                    value={category}
+                                >{category}</option>
+                            )
+                        }
+                    </select>
+                    </div>
             </div>
-            <div className="row mb-3">
             <input
-                className="form-control me-3 col"
+                className="form-control row w-50 mb-3"
                 type="text"
                 placeholder="Size"
                 value={size}
@@ -168,7 +180,6 @@ function EditForm({onEdit,background,textColor}:Props) {
                     setSize(e.target.value)
                 }}
             />
-            </div>
             <div className="row mx-auto w-50 pb-3">
             <div className="text-center text-danger">{error}</div>
             <div className="row mx-auto gap-1">

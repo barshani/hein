@@ -34,7 +34,7 @@ function Home({background,textColor}:Props){
         getProducts()
             .then(json => {
                 const sorted=json.sort((a,b)=> 0.5 - Math.random())
-                if(sorted.length>0)
+                if(sorted.length>=3)
                     setProducts([sorted[0],sorted[1],sorted[2]]);
             })
     }, []);
@@ -68,6 +68,11 @@ function Home({background,textColor}:Props){
             </div>
         </section>
          <div className="d-flex flex-wrap justify-content-center ms-3 pb-5 gap-3">
+             {products.length==0&&
+             <p className="fw-bold">not enought products to show preview</p>
+
+             
+             }
          {
                         products.map(product =>
                            <div className="card" key={product._id}style={{width:"22rem",height:"35rem",background:background,color:textColor}}>
