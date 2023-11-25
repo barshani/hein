@@ -69,7 +69,7 @@ function Home({background,textColor}:Props){
         </section>
          <div className="d-flex flex-wrap justify-content-center ms-3 pb-5 gap-3">
              {products.length==0&&
-             <p className="fw-bold">not enought products to show preview</p>
+             <p className="fw-bold">not enough products to show preview</p>
 
              
              }
