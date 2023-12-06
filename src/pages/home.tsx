@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { verifyToken } from "../auth/TokenManager";
+import { isAdmin, verifyToken } from "../auth/TokenManager";
 import { getProducts } from "../services/apiService";
   export interface Product {
     _id: string;
@@ -45,11 +45,8 @@ function Home({background,textColor}:Props){
         <section id="join-us">
             <div className="row">
                 <div className="col-12 text-center mt-4">
-                    <h1 className="display-4">Welcome to hein</h1>
-                    <h5>
-                       the biggest shopping site for man in the world
-                    </h5>
-                   {!verifyToken()&& <p>
+                    <h1 className="display-4 fw-bold">Welcome to hein</h1>
+                     {!verifyToken()&& <p>
                      <p>sign now to watch our colection and choose your favorites</p>
                         <button
                         className={background=='black'?"btn btn-dark":"btn btn-outline-success"}
@@ -64,10 +61,7 @@ function Home({background,textColor}:Props){
                          >watch our collection</button>
                     </p>
                     }
-                </div>
-            </div>
-        </section>
-         <div className="d-flex flex-wrap justify-content-center ms-3 pb-5 gap-3">
+                    <div className="d-flex flex-wrap justify-content-center ms-3 pb-5 gap-3">
              {products.length==0&&
              <p className="fw-bold">not enough products to show preview</p>
 
@@ -75,10 +69,10 @@ function Home({background,textColor}:Props){
              }
          {
                         products.map(product =>
-                           <div className="card" key={product._id}style={{width:"22rem",height:"35rem",background:background,color:textColor}}>
+                           <div className="card text-start" key={product._id}style={{width:"22rem",height:"35rem",background:background,color:textColor}}>
                             {product.imageURL&&product.imageALT&&<img src={product.imageURL} alt={product.imageALT} className="card-img-top h-50"/>}
                             {product.imageURL&&!product.imageALT&&<img src={product.imageURL} className="card-img-top h-50"/>}
-                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg'} className="card-img-top h-50" alt="Logo" />}
+                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2013/07/13/10/13/bag-156780_1280.png'} className="card-img-top h-50" alt="Logo" />}
                            
                             <div className="card-body">
                             <h5 className="card-title fw-bold">{product.name}</h5>
@@ -92,6 +86,32 @@ function Home({background,textColor}:Props){
                      )
                     }
          </div>
+                    <div className="w-3/5">
+        <div className="w-3/5">
+          <h1 className="text-2xl">About Us</h1>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>the biggest shopping site for man in the world</p></li>
+            <li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>best prices</p></li>
+            <li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>fastest delevery</p></li>
+          </ul>
+        </div>
+        <div className="w-4/5 pt-20">
+          <div>
+            <h1 className="bold text-2xl">What can you do</h1>
+            <ul className="list-group list-group-flush mb-5">
+              <li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>Like your favorite products</p></li>
+              <li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>add to your carts product that you would like to buy</p></li>
+              <li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>purchase the items in the cart</p></li>
+              {isAdmin()&&<li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>Add a new product</p></li>}
+              {isAdmin()&&<li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>Update a product</p></li>}
+              {isAdmin()&&<li className="list-group-item"><p className="font-serif"><i className="bi bi-check"></i>Delete a product</p></li>}
+            </ul>
+          </div>
+          </div>
+          </div>
+                </div>
+            </div>
+        </section>
          </div>
          </div>
     </>

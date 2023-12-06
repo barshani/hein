@@ -76,7 +76,7 @@ function CartPage({background,textColor}:Props){
                            <div className="card" key={product._id}style={{width:"22rem",height:"45rem",backgroundColor:background==='grey'?'black':'white',color:textColor}}>
                             {product.imageURL&&product.imageALT&&<img src={product.imageURL} alt={product.imageALT} className="card-img-top h-50"/>}
                             {product.imageURL&&!product.imageALT&&<img src={product.imageURL} className="card-img-top h-50"/>}
-                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg'} className="card-img-top h-50" alt="Logo" />}
+                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2013/07/13/10/13/bag-156780_1280.png'} className="card-img-top h-50" alt="Logo" />}
                            
                             <div className="card-body">
                             <h5 className="card-title fw-bold">{product.name}</h5>
@@ -97,9 +97,14 @@ function CartPage({background,textColor}:Props){
                     }
                 </div>
                 <p>your total is:{" "+total}$</p>
+                <div className="gap-2">
+                <button 
+                className={background=='grey'?"btn btn-dark mb-5 me-2":"btn btn-outline-success mb-5 me-2"} 
+                onClick={()=>navigate(-1)}>back</button>
                <button
                      className={background=='grey'?"btn btn-dark mb-5":"btn btn-outline-success mb-5"} 
                      onClick={()=>navigate('/purchase')}>buy now</button>
+                </div>
                 </div>
                
                

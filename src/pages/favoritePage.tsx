@@ -121,7 +121,7 @@ function FavProductsPage({background,textColor}:Props){
             </div>
              <ul>
                     <li className="list-group-item">items:{cartProducts.length}</li>
-                    <li className="list-group-item">total:{total}</li>
+                    <li className="list-group-item">total:{total}$</li>
             </ul>
             <button className={background=='grey'?"btn btn-dark w-100":"btn btn-outline-success w-100"} onClick={
                 ()=>{
@@ -139,7 +139,7 @@ function FavProductsPage({background,textColor}:Props){
             <h4 className="ms-2"><i onClick={()=>setShow(true)} className="bi bi-arrow-left"></i><i className="bi bi-cart"></i></h4>
             <div className="ms-2 mb-3">
                      <li className="list-group-item">items:{cartProducts.length}</li>
-                    <li className="list-group-item">total:{total}</li>
+                    <li className="list-group-item">total:{total}$</li>
              </div>
             <button className={background=='grey'?"btn btn-dark w-100":"btn btn-outline-success w-100"} onClick={
                 ()=>{
@@ -160,7 +160,7 @@ function FavProductsPage({background,textColor}:Props){
                            <div className="card" key={product._id}style={{width:"22rem",height:"45rem",background:background,color:textColor}}>
                             {product.imageURL&&product.imageALT&&<img src={product.imageURL} alt={product.imageALT} className="card-img-top h-50"/>}
                             {product.imageURL&&!product.imageALT&&<img src={product.imageURL} className="card-img-top h-50"/>}
-                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg'} className="card-img-top h-50" alt="Logo" />}
+                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2013/07/13/10/13/bag-156780_1280.png'} className="card-img-top h-50" alt="Logo" />}
                            
                             <div className="card-body">
                             <h5 className="card-title fw-bold">{product.name}</h5>

@@ -94,9 +94,12 @@ function PurchasePage({background,textColor}:Props){
             />
             </div>
                 <div className="row justify-content-center text-danger">{error}</div>
-                <div className="row justify-content-center">
+                <div className="row mx-auto w-50">
+                <button 
+                className={background=='grey'?"btn btn-dark me-2 col":"btn btn-outline-success me-2 col"}
+                onClick={()=>navigate(-1)}>back</button>
                 <button
-                className={background=='grey'?"btn btn-dark w-25":"btn btn-outline-success w-25"}
+                className={background=='grey'?"btn btn-dark col":"col btn btn-outline-success col"}
                 onClick={
                 handleClick}
                 >purchase</button>

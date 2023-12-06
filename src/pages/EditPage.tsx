@@ -14,11 +14,21 @@ function EditPage({background,textColor}:Props){
  function onEdit(card: Product) {
         editProduct(card)
             .then(json => {
-                navigate(-1);
+            toast.success('you update product successfully', {
+           position: "top-right",
+           autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+            })
             })
     }
     return (
         <>
+           <ToastContainer/>
            <EditForm 
            onEdit={onEdit}
            background={background}

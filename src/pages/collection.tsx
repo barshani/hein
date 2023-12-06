@@ -86,6 +86,16 @@ function CollectionPage({background,textColor}:Props){
         );
         const newFav=products.map(product=>product._id===productID)
         setFavProducts([...favProducts,product])
+         toast.success('product has added to your favorites', {
+           position: "top-right",
+           autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+            })
     }
      async function addCartProduct(product:Product) {
         const userID=getUserID()
@@ -103,6 +113,16 @@ function CollectionPage({background,textColor}:Props){
         }
         else
            setTotal(total+Number(product.price))
+         toast.success('product has added to your cart', {
+           position: "top-right",
+           autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+        })
     }
     async function deleteFavorite(productID:string){
          const userID=getUserID()
@@ -111,6 +131,16 @@ function CollectionPage({background,textColor}:Props){
             favorites => favorites._id !== productID
         )
         setFavProducts(updated)
+        toast.success('product has removed from your favorites', {
+           position: "top-right",
+           autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+        })
     }
     async function deleteProductFromCart(productID:string,price:String){
          const userID=getUserID()
@@ -120,6 +150,16 @@ function CollectionPage({background,textColor}:Props){
         )
         setTotal(total-Number(price))
         setCartProducts(updated)
+        toast.success('product has removed from your cart', {
+           position: "top-right",
+           autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+        })
     }
     function isFavorite(productID:string) {
         let bol=false;
@@ -165,6 +205,7 @@ function CollectionPage({background,textColor}:Props){
         }
     return (
         <>
+        <ToastContainer/>
         <div className="w-75 mx-auto col-12 gap-5">
             {show&&cartProducts.length>0&&<div className="list me-2" style={{
                 position: 'fixed',
@@ -180,7 +221,7 @@ function CollectionPage({background,textColor}:Props){
             </div>
              <ul>
                     <li className="list-group-item">items:{cartProducts.length}</li>
-                    <li className="list-group-item">total:{total}</li>
+                    <li className="list-group-item">total:{total}$</li>
             </ul>
             <button className={background=='black'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
                 ()=>{
@@ -198,7 +239,7 @@ function CollectionPage({background,textColor}:Props){
             <h4 className="ms-2"><i onClick={()=>setShow(true)} className="bi bi-arrow-left"></i><i className="bi bi-cart"></i></h4>
             <div className="ms-2 mb-3">
                      <li className="list-group-item">items:{cartProducts.length}</li>
-                    <li className="list-group-item">total:{total}</li>
+                    <li className="list-group-item">total:{total}$</li>
              </div>
             <button className={background=='black'?"btn btn-dark w-100":"btn btn-outline-success w-100"}  onClick={
                 ()=>{
@@ -229,7 +270,7 @@ function CollectionPage({background,textColor}:Props){
                            <div className="card" key={product._id}style={{width:"22rem",height:"45rem",background:background,color:textColor}}>
                             {product.imageURL&&product.imageALT&&<img src={product.imageURL} alt={product.imageALT} className="card-img-top h-50"/>}
                             {product.imageURL&&!product.imageALT&&<img src={product.imageURL} className="card-img-top h-50"/>}
-                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg'} className="card-img-top h-50" alt="Logo" />}
+                            {!product.imageURL&& <img src={'https://cdn.pixabay.com/photo/2013/07/13/10/13/bag-156780_1280.png'} className="card-img-top h-50" alt="Logo" />}
                            
                             <div className="card-body">
                             <h5 className="card-title fw-bold">{product.name}</h5>
