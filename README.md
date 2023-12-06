@@ -23,6 +23,20 @@ and in the and can buy the product they add to cart
 can do what regular and can create is own product cards by pressing the add button in the navbar, and can watch them on the collection page and also edit them by pressing on the pencil button and delete them by pressing the trash symbol.
 
 you can add admin user using postman
+example:
+{
+"firstName":"boris",
+"lastName":"boris",
+"phone":"1231231234",
+"email":"boris@gmail.com",
+"password":"Boris1996!",
+"country":"israel",
+"city":"naharia",
+"street":"sssss",
+"houseNum":"9",
+"isAdmin":true
+}
+url: http://localhost:3001/users/signup
 
 # navbar and footer
 
